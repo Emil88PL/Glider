@@ -1,0 +1,14 @@
+body {
+  background-color: #9e32a8; /* Light grey color */
+}
+
+/* style.css */
+.alive {
+    background-color: #bf2675; /* Change this to the color you want for alive cells */
+    color: #ffffff; /* Change this to the text color for alive cells */
+}
+
+.dead {
+    background-color: #ffffff; /* Change this to the color you want for dead cells */
+    color: #000100; /* Change this to the text color for dead cells */
+}

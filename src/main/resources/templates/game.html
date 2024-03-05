@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game of Life</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+<h1>Game of Life</h1>
+<h3>Generation <span th:text="${generationCount}"></span></h3>
+<table border="1">
+    <tr th:each="row, rowStat : ${board}">
+        <td th:each="cell, colStat : ${row}"
+            th:text="${cell ? '&#x2022;' : 'O'}"
+            th:class="${cell ? 'alive' : 'dead'}"></td>
+    </tr>
+</table>
+
+<!-- Stop, Resume, and Restart buttons -->
+<button onclick="stopRefresh()">Stop Refresh</button>
+<button onclick="resumeRefresh()">Resume Refresh</button>
+<button onclick="restartGame()">Restart Game</button>
+
+<!-- JavaScript to handle start, stop, resume, and restart -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var refreshIntervalId;
+
+    function startRefresh() {
+        refreshIntervalId = setInterval(function () {
+            location.reload();
+        }, 2000); // Reload every 2000 milliseconds (2 seconds)
+    }
+
+    function stopRefresh() {
+        clearInterval(refreshIntervalId);
+    }
+
+    function resumeRefresh() {
+        startRefresh();
+    }
+
+     function restartGame() {
+        // Make an AJAX request to restart the game
+        $.ajax({
+            type: "POST",
+            url: "/restart",
+            success: function () {
+                location.reload();
+            }
+        });
+    }
+
+    // Initial start
+    startRefresh();
+    /*]]>*/
+</script>
+
+</body>
+</html>
