@@ -26,7 +26,7 @@ public class GameController {
     // Update the board for the next generation
     gameOfLife.updateBoard();
     generationCount++;
-   // System.out.println(generationCount);
+
     // Pass the board to the Thymeleaf template
     model.addAttribute("board", gameOfLife.getBoard());
     model.addAttribute("generationCount", generationCount);

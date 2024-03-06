@@ -1,6 +1,5 @@
 package com.gameoflife.game;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -38,15 +37,7 @@ public class GameOfLife {
     this.board = new boolean[rows][cols];
   }
 
-//  public void initializeBoard() {
-//    // Initialize the board with random live cells
-//    Random random = new Random();
-//    for (int i = 0; i < rows; i++) {
-//      for (int j = 0; j < cols; j++) {
-//        board[i][j] = random.nextBoolean();
-//      }
-//    }
-//  }
+
 public void initializeBoard() {
   // Initialize the board with random live cells
   Random random = new Random();
