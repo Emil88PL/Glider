@@ -2,6 +2,7 @@ package com.gameoflife.game;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -11,7 +12,7 @@ public class GameOfLife {
   Logger log = LoggerFactory.getLogger(GameOfLife.class);
 
   private final BoardConfig boardConfig;
-
+  private final Random random = new Random();
   public GameOfLife(BoardConfig boardConfig) {
     this.boardConfig = boardConfig;
   }
@@ -20,10 +21,11 @@ public class GameOfLife {
   private int cols;
   private boolean[][] board;
 
+  @Autowired
   public GameOfLife() {
     this.boardConfig = new BoardConfig(20, 45);
-    this.rows = boardConfig.getRows();
-    this.cols = boardConfig.getCols();
+    this.rows = boardConfig.rows();
+    this.cols = boardConfig.cols();
     this.board = new boolean[rows][cols];
   }
 
@@ -43,7 +45,7 @@ public class GameOfLife {
 
 public void initializeBoard() {
   // Initialize the board with random live cells
-  Random random = new Random();
+
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       board[i][j] = random.nextBoolean();
