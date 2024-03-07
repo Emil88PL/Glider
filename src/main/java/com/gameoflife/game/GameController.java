@@ -1,5 +1,7 @@
 package com.gameoflife.game;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,13 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class GameController {
+  Logger log = LoggerFactory.getLogger(GameController.class);
 
   private final GameOfLife gameOfLife;
   private int generationCount = 0;
 
   public GameController(GameOfLife gameOfLife) {
     this.gameOfLife = gameOfLife;
-    System.out.println("GameController initialized");
+    log.info("GameController initialized");
   }
 
   @GetMapping("/game")
@@ -26,7 +29,7 @@ public class GameController {
     // Update the board for the next generation
     gameOfLife.updateBoard();
     generationCount++;
-
+    log.debug("Generation count {}", generationCount);
     // Pass the board to the Thymeleaf template
     model.addAttribute("board", gameOfLife.getBoard());
     model.addAttribute("generationCount", generationCount);
@@ -36,6 +39,7 @@ public class GameController {
   @PostMapping("/restart")
   public String restartGame(Model model) {
     // Reset the game state, initialize a new board, reset generation count, etc.
+    log.info("Restart game");
     gameOfLife.initializeBoard();
     generationCount = 0;
 

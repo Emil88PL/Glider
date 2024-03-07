@@ -1,11 +1,14 @@
 package com.gameoflife.game;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
 @Component
 public class GameOfLife {
+  Logger log = LoggerFactory.getLogger(GameOfLife.class);
 
   private final BoardConfig boardConfig;
 
@@ -47,13 +50,13 @@ public void initializeBoard() {
     }
   }
   // Debug output
-  System.out.println("Trying to print initialize board");
+  log.debug("Trying to print initialize board");
   boardInitialized = true;
   printBoard();
 }
 
   private void printBoard() {
-    System.out.println("Initial Board:");
+    log.info("Initialize Board");
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
       //  System.out.print(board[i][j] ? "X" : " ");
