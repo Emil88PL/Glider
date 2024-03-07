@@ -13,6 +13,7 @@ public class GameOfLife {
 
   private final BoardConfig boardConfig;
   private final Random random = new Random();
+
   public GameOfLife(BoardConfig boardConfig) {
     this.boardConfig = boardConfig;
   }
@@ -24,12 +25,13 @@ public class GameOfLife {
   @Autowired
   public GameOfLife() {
     this.boardConfig = new BoardConfig(20, 45);
-    this.rows = boardConfig.rows();
-    this.cols = boardConfig.cols();
+    this.rows = boardConfig.getRows();
+    this.cols = boardConfig.getCols();
     this.board = new boolean[rows][cols];
   }
 
   private boolean boardInitialized = false;
+
   public boolean isBoardInitialized() {
     return boardInitialized;
   }
@@ -43,27 +45,27 @@ public class GameOfLife {
   }
 
 
-public void initializeBoard() {
-  // Initialize the board with random live cells
+  public void initializeBoard() {
+    // Initialize the board with random live cells
 
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      board[i][j] = random.nextBoolean();
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        board[i][j] = random.nextBoolean();
+      }
     }
+    // Debug output
+    log.debug("Trying to print initialize board");
+    boardInitialized = true;
+    printBoard();
   }
-  // Debug output
-  log.debug("Trying to print initialize board");
-  boardInitialized = true;
-  printBoard();
-}
 
   private void printBoard() {
     log.info("Initialize Board");
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-      //  System.out.print(board[i][j] ? "X" : " ");
+        //  System.out.print(board[i][j] ? "X" : " ");
       }
-     // System.out.println();
+      // System.out.println();
     }
   }
 
@@ -81,7 +83,7 @@ public void initializeBoard() {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         int liveNeighbors = countLiveNeighbors(i, j);
-      //  System.out.println("Cell (" + i + ", " + j + "): liveNeighbors = " + liveNeighbors);
+        //  System.out.println("Cell (" + i + ", " + j + "): liveNeighbors = " + liveNeighbors);
 
         // Apply the rules
         if (board[i][j]) {
@@ -91,12 +93,12 @@ public void initializeBoard() {
           // Cell is dead
           newBoard[i][j] = liveNeighbors == 3;
         }
-       // System.out.println("Result: " + (newBoard[i][j] ? "X" : " "));
+        // System.out.println("Result: " + (newBoard[i][j] ? "X" : " "));
       }
     }
 
     // Update the board with the new generation
-   // System.out.println("Board updated");
+    log.debug("Board updated");
     board = newBoard;
   }
 
@@ -114,7 +116,6 @@ public void initializeBoard() {
         // Check boundaries to avoid ArrayIndexOutOfBoundsException
         if (i >= 0 && i < rows && j >= 0 && j < cols) {
           // Count live neighbors
-       //   System.out.println("Neighbor (" + i + ", " + j + "): " + (board[i][j] ? "X" : " "));
           if (board[i][j]) {
             count++;
           }
