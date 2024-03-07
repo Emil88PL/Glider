@@ -25,8 +25,8 @@ public class GameOfLife {
   @Autowired
   public GameOfLife() {
     this.boardConfig = new BoardConfig(20, 45);
-    this.rows = boardConfig.getRows();
-    this.cols = boardConfig.getCols();
+    this.rows = boardConfig.rows();
+    this.cols = boardConfig.cols();
     this.board = new boolean[rows][cols];
   }
 
@@ -76,14 +76,13 @@ public class GameOfLife {
 
   public void updateBoard() {
     // Create a new board to store the next generation
-    //System.out.println("Creating new board..."); // last to see
+
     boolean[][] newBoard = new boolean[rows][cols];
 
     // Apply the rules of the Game of Life to update the new board
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         int liveNeighbors = countLiveNeighbors(i, j);
-        //  System.out.println("Cell (" + i + ", " + j + "): liveNeighbors = " + liveNeighbors);
 
         // Apply the rules
         if (board[i][j]) {
@@ -93,7 +92,6 @@ public class GameOfLife {
           // Cell is dead
           newBoard[i][j] = liveNeighbors == 3;
         }
-        // System.out.println("Result: " + (newBoard[i][j] ? "X" : " "));
       }
     }
 
