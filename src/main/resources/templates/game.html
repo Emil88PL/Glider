@@ -7,29 +7,32 @@
 </head>
 <body>
 <h1>Game of Life</h1>
-<h3>Generation <span th:text="${generationCount}"></span></h3>
-<table border="1">
-    <tr th:each="row, rowStat : ${board}">
-        <td th:each="cell, colStat : ${row}"
-            th:text="${cell ? '&#x2022;' : 'O'}"
-            th:class="${cell ? 'alive' : 'dead'}"></td>
-    </tr>
-</table>
+<h3>Generation <span id="generationCount" th:text="__${generationCount}__"></span></h3>
 
+<div id="boardContainer">
+    <div th:fragment="boardInner">
+        <table id="boardTable" border="1" th:data-generation="${generationCount}">
+            <tr th:each="row, rowStat : ${board}">
+                <td th:each="cell, colStat : ${row}" th:text="${cell ? '&#x2022;' : 'O'}" th:class="${cell ? 'alive' : 'dead'}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-<button onclick="stopRefresh()">Stop Refresh</button>
-<button onclick="resumeRefresh()">Resume Refresh</button>
+<button onclick="stopRefresh()">Stop</button>
+<button onclick="resumeRefresh()">Resume</button>
 <button onclick="restartGame()">Restart Game</button>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
     var refreshIntervalId;
 
-    function startRefresh() {
-        refreshIntervalId = setInterval(function () {
-            location.reload();
-        }, 2000); // Reload every 2000 milliseconds (2 seconds)
-    }
+  function startRefresh() {
+    clearInterval(refreshIntervalId); // Clear any existing interval
+    refreshIntervalId = setInterval(function () {
+        updateGame();
+    },2000);
+}
 
     function stopRefresh() {
         clearInterval(refreshIntervalId);
@@ -39,21 +42,36 @@
         startRefresh();
     }
 
-     function restartGame() {
-        // Make an AJAX request to restart the game
+    function restartGame() {
         $.ajax({
             type: "POST",
             url: "/restart",
-            success: function () {
-                location.reload();
+            success: function (data) {
+                updateBoard(data);
             }
         });
     }
+
+ function updateGame() {
+    $.ajax({
+        type: "GET",
+        url: "/update",
+        success: function (data) {
+          //  console.log("Update Game Response:", data);
+            updateBoard(data);
+        }
+    });
+}
+
+function updateBoard(data) {
+    $("#boardTable").html(data);
+   // $("#generationCount").html(data.generationCount);
+}
+
 
     // Initial start
     startRefresh();
     /*]]>*/
 </script>
-
 </body>
 </html>

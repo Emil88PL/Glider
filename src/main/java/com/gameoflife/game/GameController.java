@@ -13,6 +13,8 @@ public class GameController {
 
   private final GameOfLife gameOfLife;
   private int generationCount = 0;
+  private final String BOARD = "board";
+  private final String GENERATION_COUNT = "generationCount";
 
   public GameController(GameOfLife gameOfLife) {
     this.gameOfLife = gameOfLife;
@@ -29,24 +31,38 @@ public class GameController {
     // Update the board for the next generation
     gameOfLife.updateBoard();
     generationCount++;
-    log.debug("Generation count {}", generationCount);
+    log.info("Generation count from game: {}", generationCount);
     // Pass the board to the Thymeleaf template
-    model.addAttribute("board", gameOfLife.getBoard());
-    model.addAttribute("generationCount", generationCount);
+    model.addAttribute(BOARD, gameOfLife.getBoard());
+    model.addAttribute(GENERATION_COUNT, generationCount);
     return "game";
   }
+  @GetMapping("/update")
+  public String updateGame(Model model) {
+    // Update the board for the next generation
+    gameOfLife.updateBoard();
+    generationCount++;
+    log.info("Generation count from update: {}", generationCount);
+
+    // Pass the updated board and generation count to the Thymeleaf template
+    model.addAttribute(BOARD, gameOfLife.getBoard());
+    model.addAttribute(GENERATION_COUNT, generationCount);
+
+    return "game :: boardInner";  // Return a Thymeleaf fragment
+  }
+
 
   @PostMapping("/restart")
   public String restartGame(Model model) {
     // Reset the game state, initialize a new board, reset generation count, etc.
     log.info("Restart game");
     gameOfLife.initializeBoard();
-    generationCount = 0;
-
+    generationCount = 0; // Reset the generation count to 0
+    log.info("Generation count after restart: {}", generationCount);
     // Pass the updated board and generation count to the Thymeleaf template
-    model.addAttribute("board", gameOfLife.getBoard());
-    model.addAttribute("generationCount", generationCount);
+    model.addAttribute(BOARD, gameOfLife.getBoard());
+    model.addAttribute(GENERATION_COUNT, generationCount);
 
-    return "game";
+    return "game :: board";
   }
 }
