@@ -10,7 +10,6 @@ import java.util.Random;
 @Component
 public class GameOfLife {
   Logger log = LoggerFactory.getLogger(GameOfLife.class);
-
   private final BoardConfig boardConfig;
   private final Random random = new Random();
 
@@ -31,23 +30,12 @@ public class GameOfLife {
   }
 
   private boolean boardInitialized = false;
-
   public boolean isBoardInitialized() {
     return boardInitialized;
   }
 
-
-  public GameOfLife(BoardConfig boardConfig, int rows, int cols) {
-    this.boardConfig = boardConfig;
-    this.rows = rows;
-    this.cols = cols;
-    this.board = new boolean[rows][cols];
-  }
-
-
   public void initializeBoard() {
     // Initialize the board with random live cells
-
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         board[i][j] = random.nextBoolean();
@@ -69,16 +57,13 @@ public class GameOfLife {
     }
   }
 
-
   public boolean[][] getBoard() {
     return board;
   }
 
   public void updateBoard() {
     // Create a new board to store the next generation
-
     boolean[][] newBoard = new boolean[rows][cols];
-
     // Apply the rules of the Game of Life to update the new board
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
