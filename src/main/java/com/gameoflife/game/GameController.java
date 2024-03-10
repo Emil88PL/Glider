@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class GameController {
@@ -34,7 +35,7 @@ public class GameController {
     log.info("Generation count from game: {}", generationCount);
     // Pass the board to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
-    model.addAttribute(GENERATION_COUNT, generationCount);
+  //  model.addAttribute(GENERATION_COUNT, generationCount);
     return "game";
   }
   @GetMapping("/update")
@@ -46,10 +47,24 @@ public class GameController {
 
     // Pass the updated board and generation count to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
-    model.addAttribute(GENERATION_COUNT, generationCount);
+   // model.addAttribute(GENERATION_COUNT, generationCount);
 
-    return "game :: boardInner";  // Return a Thymeleaf fragment
+    String templateName = "game :: boardContainer";
+    log.info("Returning template: {}", templateName);
+
+    // Log the board content for debugging
+    log.info("Board content: {}", gameOfLife.getBoard());
+
+    return "game :: boardInner";
   }
+
+  @GetMapping("/getGenerationCount")
+  @ResponseBody
+  public int getGenerationCount() {
+    return generationCount;
+  }
+
+
 
 
   @PostMapping("/restart")
@@ -61,7 +76,7 @@ public class GameController {
     log.info("Generation count after restart: {}", generationCount);
     // Pass the updated board and generation count to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
-    model.addAttribute(GENERATION_COUNT, generationCount);
+  //  model.addAttribute(GENERATION_COUNT, generationCount);
 
     return "game :: board";
   }

@@ -59,6 +59,7 @@
         success: function (data) {
           //  console.log("Update Game Response:", data);
             updateBoard(data);
+            updateGenerationCount()
         }
     });
 }
@@ -68,6 +69,19 @@ function updateBoard(data) {
    // $("#generationCount").html(data.generationCount);
 }
 
+function updateGenerationCount() {
+    console.log(generationCount);
+    $.ajax({
+        type: "GET",
+        url: "/getGenerationCount",
+        success: function (generationCount) {
+            $("#generationCount").text(generationCount);
+        },
+        error: function (xhr, status, error) {
+            console.error("Failed to fetch generation count:", status, error);
+        }
+    });
+}
 
     // Initial start
     startRefresh();
