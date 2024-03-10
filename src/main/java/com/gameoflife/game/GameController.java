@@ -32,7 +32,7 @@ public class GameController {
     // Update the board for the next generation
     gameOfLife.updateBoard();
     generationCount++;
-    log.info("Generation count from game: {}", generationCount);
+    log.debug("Generation count from game: {}", generationCount);
     // Pass the board to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
   //  model.addAttribute(GENERATION_COUNT, generationCount);
@@ -43,17 +43,17 @@ public class GameController {
     // Update the board for the next generation
     gameOfLife.updateBoard();
     generationCount++;
-    log.info("Generation count from update: {}", generationCount);
+    log.debug("Generation count from update: {}", generationCount);
 
     // Pass the updated board and generation count to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
    // model.addAttribute(GENERATION_COUNT, generationCount);
 
     String templateName = "game :: boardContainer";
-    log.info("Returning template: {}", templateName);
+    log.debug("Returning template: {}", templateName);
 
     // Log the board content for debugging
-    log.info("Board content: {}", gameOfLife.getBoard());
+    log.debug("Board content: {}", gameOfLife.getBoard());
 
     return "game :: boardInner";
   }
@@ -73,7 +73,7 @@ public class GameController {
     log.info("Restart game");
     gameOfLife.initializeBoard();
     generationCount = 0; // Reset the generation count to 0
-    log.info("Generation count after restart: {}", generationCount);
+    log.debug("Generation count after restart: {}", generationCount);
     // Pass the updated board and generation count to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
   //  model.addAttribute(GENERATION_COUNT, generationCount);
