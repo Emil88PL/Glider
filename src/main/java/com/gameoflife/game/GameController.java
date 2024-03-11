@@ -35,7 +35,7 @@ public class GameController {
     log.debug("Generation count from game: {}", generationCount);
     // Pass the board to the Thymeleaf template
     model.addAttribute(BOARD, gameOfLife.getBoard());
-  //  model.addAttribute(GENERATION_COUNT, generationCount);
+    model.addAttribute(GENERATION_COUNT, generationCount);
     return "game";
   }
   @GetMapping("/update")
